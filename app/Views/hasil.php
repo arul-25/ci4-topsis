@@ -8,6 +8,7 @@
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">Hasil Seleksi</li>
             </ol>
+
           </div>
 
           <div class="row">
@@ -81,32 +82,45 @@
                       <?php
                       if (isset($_POST['id_beasiswa']) && isset($_POST['id_prodi']) && isset($_POST['thn_akademik'])) {
                         $data_nilai = array();
-                        $data_nilai_new = array();
+                        // $data_nilai_new = array();
                         foreach ($data as $key) {
                           $data_nilai[] = array($key['id_mahasiswa'] => $key['nilai']);
                         }
 
-                        asort($data_nilai);
-                        foreach ($data_nilai as $k => $v) {
-                          $data_nilai_new[] = array($v);
-                        }
+                        // asort($data_nilai);
+                        // foreach ($data_nilai as $k => $v) {
+                        //   $data_nilai_new[] = array($v);
+                        // }
 
                         $no = 1;
-                        foreach ($data_nilai_new as $e => $f) {
-                          foreach ($f[0] as $keys => $values) {
-                            $data_mahasiswa = $lib->getAllDataMahasiswa($keys);
-                            $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
-                            echo '<tr>';
-                            echo '<td>' . $no . '</td>';
-                            echo '<td>' . $data_mahasiswa->npm . '</td>';
-                            echo '<td>' . $data_mahasiswa->nama . '</td>';
-                            echo '<td>' . $data_prodi . '</td>';
-                            echo '<td>' . $values . '</td>';
-                            echo '<td>' . (($no <= $kouta) ? 'Layak' : 'Tidak Layak') . '</td>';
-                            echo '</tr>';
-                          }
+                        foreach ($data_nilai as $row) {
+                          $data_mahasiswa = $lib->getAllDataMahasiswa(array_keys($row)[0]);
+                          $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
+                          echo '<tr>';
+                          echo '<td>' . $no . '</td>';
+                          echo '<td>' . $data_mahasiswa->npm . '</td>';
+                          echo '<td>' . $data_mahasiswa->nama . '</td>';
+                          echo '<td>' . $data_prodi . '</td>';
+                          echo '<td>' . array_values($row)[0] . '</td>';
+                          echo '<td>' . (($no <= $kouta) ? 'Layak' : 'Tidak Layak') . '</td>';
+                          echo '</tr>';
                           $no++;
                         }
+                        // foreach ($data_nilai_new as $e => $f) {
+                        //   foreach ($f[0] as $keys => $values) {
+                        //     $data_mahasiswa = $lib->getAllDataMahasiswa($keys);
+                        //     $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
+                        //     echo '<tr>';
+                        //     echo '<td>' . $no . '</td>';
+                        //     echo '<td>' . $data_mahasiswa->npm . '</td>';
+                        //     echo '<td>' . $data_mahasiswa->nama . '</td>';
+                        //     echo '<td>' . $data_prodi . '</td>';
+                        //     echo '<td>' . $values . '</td>';
+                        //     echo '<td>' . (($no <= $kouta) ? 'Layak' : 'Tidak Layak') . '</td>';
+                        //     echo '</tr>';
+                        //   }
+                        //   $no++;
+                        // }
                       }
                       // echo '<pre>';
                       //      print_r($data_mahasiswa);

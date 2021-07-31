@@ -1112,13 +1112,15 @@ class DashboardController extends BaseController
 			$thn_akademik = $this->request->getVar('thn_akademik');
 			$id_beasiswa = $this->request->getVar('id_beasiswa');
 			$id_prodi = $this->request->getVar('id_prodi');
+			$perhitungan = $this->service_lib->perhitungan($thn_akademik, $id_beasiswa, $id_prodi);
+			if ($perhitungan == null) return redirect()->to(base_url('dashboard/hasil'));
 		} else {
 			$thn_akademik = '';
 			$id_beasiswa = '';
 			$id_prodi = '';
 		}
 
-		$perhitungan = $this->service_lib->perhitungan($thn_akademik, $id_beasiswa, $id_prodi);
+
 
 		$data = [
 			'title' => 'SPK Topsis',
@@ -1127,7 +1129,8 @@ class DashboardController extends BaseController
 			'thn_akademik' => $thn_akademik,
 			'id_beasiswa' => $id_beasiswa,
 			'id_prodi' => $id_prodi,
-			'data' => $perhitungan,
+			'data' => $this->seleksi->select('id_mahasiswa, nilai')->where('id_prodi', session()->get('id_prodi'))->where('nilai !=', 'null')->orderBy('nilai', 'DESC')->findAll(),
+			// 'data' => $perhitungan,
 			'lib' => $this->service_lib
 		];
 

@@ -132,22 +132,36 @@ class Service_Lib extends Model
         $data = array();
         $data2 = array();
         $total = array();
-        $qry = $this->db->table('seleksi')->where('thn_akademik', $thn_akademik)->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->get()->getResultArray();
-        $no = 0;
-        foreach ($qry as $row) {
-            $qry2 = $this->db->table('detail_seleksi')->where('id_seleksi', $row['id'])->where('id_mahasiswa', $row['id_mahasiswa'])->get()->getResultArray();
-            foreach ($qry2 as $row2) {
-                $data2[$no][] = $row2['bobot'] * $row2['jawaban'];
+        $qry = $this->db->table('seleksi')->where('thn_akademik', $thn_akademik)->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->where('deleted_at is null')->get()->getResultArray();
+
+        if ($qry) {
+            $no = 0;
+
+            foreach ($qry as $row) {
+                $qry2 = $this->db->table('detail_seleksi')->where('id_seleksi', $row['id'])->where('id_mahasiswa', $row['id_mahasiswa'])->get()->getResultArray();
+
+                if (!$qry2) {
+                    continue;
+                } else {
+                    foreach ($qry2 as $row2) {
+                        $data2[$no][] = $row2['bobot'] * $row2['jawaban'];
+                    }
+
+                    $nilai = array_sum($data2[$no]);
+                    $pangkat = pow(10, strlen($nilai));
+                    $hasil = $nilai / $pangkat;
+
+                    array_push($data, array('id_mahasiswa' => $row['id_mahasiswa'], 'id_seleksi' => $row['id'], 'nilai' => $hasil));
+                    $this->db->table('seleksi')->where('id', $row['id'])->set(['nilai' => $hasil])->update();
+                    $no++;
+                }
             }
-
-            $nilai = array_sum($data2[$no]);
-            $pangkat = pow(10, strlen($nilai));
-            $hasil = $nilai / $pangkat;
-
-            array_push($data, array('id_mahasiswa' => $row['id_mahasiswa'], 'id_seleksi' => $row['id'], 'nilai' => $hasil));
-            $this->db->table('seleksi')->where('id', $row['id'])->set(['nilai' => $hasil])->update();
-            $no++;
+            if ($data) return $data;
+            session()->setFlashdata('errors', 'Data Detail Seleksi Masih kosong. Isi Data Terlebih Dahulu');
+            return null;
+        } else {
+            session()->setFlashdata('errors', 'Data Seleksi Masih kosong. Isi Data Terlebih Dahulu');
+            return null;
         }
-        return $data;
     }
 }
