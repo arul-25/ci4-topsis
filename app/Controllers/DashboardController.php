@@ -152,7 +152,7 @@ class DashboardController extends BaseController
 			];
 			return view('prodi/prodi_edit', $data);
 		} else {
-			if ($kd_prodi != $kd_prodi_old && $this->prodi->where('kd_prodi', $kode_prodi)->countAllResults() > 0) {
+			if ($kd_prodi != $kd_prodi_old && $this->prodi->where('kd_prodi', $kd_prodi)->countAllResults() > 0) {
 				$data = [
 					'title' => 'SPK Topsis',
 					'validation' => ['kd_prodi' => 'Kode Prodi sudah terdaftar di database'],
