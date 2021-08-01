@@ -55,7 +55,7 @@
                     <form action="<?= base_url('dashboard/seleksi_detail_update') ?>" method="post" style="margin-top: 10px;">
                       <input type="hidden" name="id" value="<?= $id ?>">
                       <input type="hidden" name="thn_akademik" value="<?= $data_seleksi->thn_akademik ?>">
-
+                      <?php $dataPersyaratan = []; ?>
                       <?php foreach ($persyaratan as $rows) : ?>
 
                         <?php $jawaban = $lib->getJawaban($id_seleksi, $rows['id']); ?>
@@ -76,8 +76,10 @@
                             <div class="col-sm-7">
                               <select class="form-control <?= 'select' . $rows['id'] . '-single-placeholder'; ?>" id="type_persyaratan" name="jawaban[]" required>
                                 <option value="">Pilih</option>
+
                                 <?php foreach ($PilihanPersyaratanModel->where('id_persyaratan', $rows['id'])->findAll() as $dt) : ?>
                                   <option value="<?= $dt['nilai_pilihan']; ?>"><?= $dt['pilihan']; ?></option>
+                                  <?php $dataPersyaratan[] = $dt; ?>
                                 <?php endforeach; ?>
                               </select>
                               <span class="text-danger"><?php if (isset($validation['type_persyaratan']) != '') echo $validation['type_persyaratan']; ?></span>
@@ -88,7 +90,9 @@
                       <?php endforeach; ?>
                       <div class="form-group row">
                         <div class="col-sm-12" align="right">
-                          <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
+                          <?php if ($dataPersyaratan) : ?>
+                            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
+                          <?php endif; ?>
                           <a href="<?= base_url('dashboard/seleksi') ?>" class="btn btn-outline-warning btn-sm"><i class="fa fa-undo-alt"></i> Batal</a>
                         </div>
                       </div>
