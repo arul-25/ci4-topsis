@@ -9,39 +9,39 @@ use CodeIgniter\Validation\Rules;
 
 class Validation
 {
-	//--------------------------------------------------------------------
-	// Setup
-	//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    // Setup
+    //--------------------------------------------------------------------
 
-	/**
-	 * Stores the classes that contain the
-	 * rules that are available.
-	 *
-	 * @var string[]
-	 */
-	public $ruleSets = [
-		Rules::class,
-		FormatRules::class,
-		FileRules::class,
-		CreditCardRules::class,
-	];
+    /**
+     * Stores the classes that contain the
+     * rules that are available.
+     *
+     * @var string[]
+     */
+    public $ruleSets = [
+        Rules::class,
+        FormatRules::class,
+        FileRules::class,
+        CreditCardRules::class,
+    ];
 
-	/**
-	 * Specifies the views that are used to display the
-	 * errors.
-	 *
-	 * @var array<string, string>
-	 */
-	public $templates = [
-		'list'   => 'CodeIgniter\Validation\Views\list',
-		'single' => 'CodeIgniter\Validation\Views\single',
-	];
+    /**
+     * Specifies the views that are used to display the
+     * errors.
+     *
+     * @var array<string, string>
+     */
+    public $templates = [
+        'list'   => 'CodeIgniter\Validation\Views\list',
+        'single' => 'CodeIgniter\Validation\Views\single',
+    ];
 
-	//--------------------------------------------------------------------
-	// Rules
-	//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    // Rules
+    //--------------------------------------------------------------------
 
-	public $loginUser = [
+    public $loginUser = [
         'username' => [
             'label'  => 'Username',
             'rules'  => 'required'
@@ -174,7 +174,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'jk'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'umur'       => [
             'required' => '{field} wajib diisi'
@@ -186,7 +186,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'thn_lulus'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'id_prodi'       => [
             'required' => '{field} wajib diisi'
@@ -236,7 +236,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'jk'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'umur'       => [
             'required' => '{field} wajib diisi'
@@ -248,7 +248,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'thn_lulus'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'id_prodi'       => [
             'required' => '{field} wajib diisi'
@@ -283,7 +283,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'sumber'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'jumlah'       => [
             'required' => '{field} wajib diisi'
@@ -317,7 +317,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'id_prodi'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'kouta'       => [
             'required' => '{field} wajib diisi'
@@ -336,6 +336,10 @@ class Validation
         'id_beasiswa'       => [
             'label'  => 'Beasiswa',
             'rules'  => 'required'
+        ],
+        'type_persyaratan'       => [
+            'label'  => 'Tipe Persyaratan',
+            'rules'  => 'required'
         ]
     ];
 
@@ -347,7 +351,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'id_beasiswa'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ]
     ];
 
@@ -374,7 +378,7 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'bobot'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ]
     ];
 
@@ -409,14 +413,13 @@ class Validation
             'required' => '{field} wajib diisi'
         ],
         'id_beasiswa'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'id_mahasiswa'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ],
         'tgl_seleksi'       => [
-           'required' => '{field} wajib diisi'
+            'required' => '{field} wajib diisi'
         ]
     ];
-
 }

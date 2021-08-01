@@ -1,0 +1,3 @@
+-- quota belum berelasi dengan seleksi.
+-- ketika data seleksi terisi data kuota tidak berkurang, seharusnya berkurang sesuai dengan berapa jumlah data seleksi yang diinput.
+-- ada bug di perhitungan, ketika jawaban dari persyaratan adalah huruf/kata bukan angka

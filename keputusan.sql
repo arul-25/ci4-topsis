@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2021 at 08:37 PM
+-- Generation Time: Aug 01, 2021 at 06:12 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -99,7 +99,15 @@ INSERT INTO `detail_seleksi` (`id`, `id_seleksi`, `id_mahasiswa`, `id_persyarata
 (2, 1, 1, 2, '2', '4', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
 (3, 1, 1, 3, '2', '3', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
 (4, 1, 1, 4, '3.50', '2', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(5, 1, 1, 5, '30', '2', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL);
+(5, 1, 1, 5, '30', '2', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
+(6, 6, 10, 1, '3400000', '5', '2021-08-01 00:22:34', '2021-08-01 00:30:29', NULL),
+(7, 6, 10, 2, 'Swasta', '4', '2021-08-01 00:22:34', '2021-08-01 00:30:30', NULL),
+(8, 6, 10, 3, 'Ada', '3', '2021-08-01 00:22:35', '2021-08-01 00:30:30', NULL),
+(9, 6, 10, 4, 'SMA', '2', '2021-08-01 00:22:35', '2021-08-01 00:30:30', NULL),
+(10, 7, 7, 1, '700.000', '5', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
+(11, 7, 7, 2, 'Swasta', '4', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
+(12, 7, 7, 3, 'ada', '3', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
+(13, 7, 7, 4, 'sma', '2', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -157,7 +165,12 @@ INSERT INTO `mahasiswa` (`id`, `npm`, `nama`, `jk`, `umur`, `asal_slta`, `jurusa
 (3, '14411', 'Hendrik', 'Laki-Laki', 27, 'SMA N2 APO', 'IPS', '2013', 1, '2021-07-31 15:10:15', '2021-07-31 15:10:15', NULL),
 (4, '13410', 'Yahya Deo', 'Laki-Laki', 28, 'Sma Organda', 'IPS', '2013', 2, '2021-07-31 15:11:03', '2021-07-31 15:11:03', NULL),
 (5, '13410', 'Billy Bonai', 'Laki-Laki', 30, 'Sma Timika', 'IPA', '2010', 2, '2021-07-31 15:11:53', '2021-07-31 15:11:53', NULL),
-(6, '14410', 'Juan Mambrasar', 'Laki-Laki', 29, 'Sma N1 Biak', 'IPS', '2014', 2, '2021-07-31 15:12:54', '2021-07-31 15:12:54', NULL);
+(6, '14410', 'Juan Mambrasar', 'Laki-Laki', 29, 'Sma N1 Biak', 'IPS', '2014', 2, '2021-07-31 15:12:54', '2021-07-31 15:12:54', NULL),
+(7, '001', 'Charien Natalia Pei', 'Perempuan', 19, 'SMA Negeri 1 Wamena', 'IPA', '2020', 2, '2021-08-01 00:10:48', '2021-08-01 00:10:48', NULL),
+(8, '002', 'Newius Maling', 'Laki-Laki', 22, 'SMK N 1 Sentani', 'Teknik Komputer', '2018', 2, '2021-08-01 00:11:31', '2021-08-01 00:11:31', NULL),
+(9, '003', 'Elzy M Boingera', 'Perempuan', 19, 'SMK N 1 Sentani', 'Teknik Komputer', '2020', 1, '2021-08-01 00:12:15', '2021-08-01 00:12:15', NULL),
+(10, '004', 'Maria Dolorosa', 'Perempuan', 20, 'SMA Khatolik Yos Sudarso', 'IPA', '2018', 2, '2021-08-01 00:13:00', '2021-08-01 00:13:00', NULL),
+(11, '005', 'Zulfitra Surya', 'Laki-Laki', 20, 'SMK N 3 Jayapura', 'Teknik Komputer', '2020', 1, '2021-08-01 00:13:58', '2021-08-01 00:13:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -170,6 +183,7 @@ CREATE TABLE `persyaratan` (
   `kd_persyaratan` varchar(5) DEFAULT NULL,
   `nm_persyaratan` varchar(191) DEFAULT NULL,
   `id_beasiswa` bigint(20) DEFAULT NULL,
+  `type_persyaratan` enum('jawaban','pilihan') DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -179,12 +193,25 @@ CREATE TABLE `persyaratan` (
 -- Dumping data for table `persyaratan`
 --
 
-INSERT INTO `persyaratan` (`id`, `kd_persyaratan`, `nm_persyaratan`, `id_beasiswa`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'P0121', 'Penghasilan Orang Tua', 1, '2021-07-27 18:40:05', '2021-07-27 23:10:31', NULL),
-(2, 'P0221', 'Jumlah Tanggungan', 1, '2021-07-27 18:41:08', '2021-07-27 18:41:08', NULL),
-(3, 'P0321', 'Semester', 1, '2021-07-27 18:41:44', '2021-07-27 18:43:21', NULL),
-(4, 'P0421', 'IPK', 1, '2021-07-27 18:43:46', '2021-07-27 18:43:46', NULL),
-(5, 'P0521', 'Usia', 1, '2021-07-27 18:44:04', '2021-07-27 18:44:04', NULL);
+INSERT INTO `persyaratan` (`id`, `kd_persyaratan`, `nm_persyaratan`, `id_beasiswa`, `type_persyaratan`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'P0121', 'Penghasilan Orang Tua', 1, NULL, '2021-07-27 18:40:05', '2021-08-01 00:14:49', NULL),
+(2, 'P0221', 'Pekerjaan Orang Tua', 1, NULL, '2021-07-27 18:41:08', '2021-08-01 00:15:08', NULL),
+(3, 'P0321', 'Fotocopy KK dan KTP', 1, NULL, '2021-07-27 18:41:44', '2021-08-01 00:15:25', NULL),
+(4, 'P0421', 'Pendidikan Orang Tua', 1, NULL, '2021-07-27 18:43:46', '2021-08-01 00:15:43', NULL),
+(5, 'P0521', 'Usia', 1, NULL, '2021-07-27 18:44:04', '2021-08-01 00:16:02', '2021-08-01 00:16:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pilihan_persyaratan`
+--
+
+CREATE TABLE `pilihan_persyaratan` (
+  `id` int(11) NOT NULL,
+  `id_persyaratan` int(11) NOT NULL,
+  `pilihan` varchar(255) NOT NULL,
+  `nilai_pilihan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -206,8 +233,8 @@ CREATE TABLE `prodi` (
 --
 
 INSERT INTO `prodi` (`id`, `kd_prodi`, `nm_prodi`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'TIF01', 'Teknik Informatika', '2021-07-27 11:50:55', '2021-07-27 11:51:21', NULL),
-(2, 'TIF02', 'Sistem Informasi', '2021-07-31 09:42:22', '2021-07-31 16:35:16', NULL);
+(1, '411', 'Teknik Informatika', '2021-07-27 11:50:55', '2021-07-27 11:51:21', NULL),
+(2, '421', 'Sistem Informasi', '2021-07-31 09:42:22', '2021-07-31 16:35:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -239,7 +266,10 @@ INSERT INTO `seleksi` (`id`, `kd_seleksi`, `thn_akademik`, `id_beasiswa`, `id_ma
 (2, 'S21002', '2021', 1, 2, NULL, '2021-08-01', 1, NULL, '2021-07-31 15:14:50', '2021-07-31 15:14:50', NULL),
 (3, 'S21003', '2021', 1, 3, NULL, '2021-08-01', 1, NULL, '2021-07-31 15:15:32', '2021-07-31 15:15:32', NULL),
 (4, 'S3001', '2021', 1, 4, NULL, '2021-08-01', 2, NULL, '2021-07-31 15:59:58', '2021-07-31 16:06:05', '2021-07-31 16:06:05'),
-(5, 'S3001', '2021', 1, 4, NULL, '2021-08-01', 2, NULL, '2021-07-31 16:21:01', '2021-07-31 16:21:01', NULL);
+(5, 'S3001', '2021', 1, 4, NULL, '2021-08-01', 2, NULL, '2021-07-31 16:21:01', '2021-08-01 00:22:46', '2021-08-01 00:22:46'),
+(6, 'S21002', '2021', 1, 10, NULL, '2021-08-01', 2, NULL, '2021-08-01 00:21:10', '2021-08-01 00:33:27', NULL),
+(7, 'S21001', '2021', 1, 7, NULL, '2021-08-01', 2, NULL, '2021-08-01 00:40:02', '2021-08-01 00:40:02', NULL),
+(8, 'S21003', '2021', 1, 5, NULL, '2021-08-01', 2, NULL, '2021-08-01 06:04:30', '2021-08-01 06:04:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -310,6 +340,13 @@ ALTER TABLE `persyaratan`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indexes for table `pilihan_persyaratan`
+--
+ALTER TABLE `pilihan_persyaratan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_persyaratan` (`id_persyaratan`);
+
+--
 -- Indexes for table `prodi`
 --
 ALTER TABLE `prodi`
@@ -347,7 +384,7 @@ ALTER TABLE `bobot`
 -- AUTO_INCREMENT for table `detail_seleksi`
 --
 ALTER TABLE `detail_seleksi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `kouta`
@@ -359,13 +396,19 @@ ALTER TABLE `kouta`
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `persyaratan`
 --
 ALTER TABLE `persyaratan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pilihan_persyaratan`
+--
+ALTER TABLE `pilihan_persyaratan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `prodi`
@@ -377,7 +420,7 @@ ALTER TABLE `prodi`
 -- AUTO_INCREMENT for table `seleksi`
 --
 ALTER TABLE `seleksi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`

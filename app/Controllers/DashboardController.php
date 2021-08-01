@@ -15,6 +15,7 @@ use App\Models\Seleksi_Model;
 use App\Models\SeleksiDetail_Model;
 use App\Libraries\Service_Lib;
 use App\Libraries\PDF;
+use App\Models\PilihanPersyartanModel;
 use Config\Services;
 use Mpdf\Mpdf;
 use \TCPDF;
@@ -754,6 +755,7 @@ class DashboardController extends BaseController
 				$row[] = $list->kd_persyaratan;
 				$row[] = $list->nm_persyaratan;
 				$row[] = $list->nm_beasiswa;
+				$row[] = $list->type_persyaratan;
 				$row[] = '<a href="' . base_url('dashboard/persyaratan_edit/' . enkrip($list->id)) . '" class="text-secondary"><i class="fa fa-pencil-alt"></i></a> &nbsp; <a href="#" onClick="return deletePersyaratan(' . $list->id . ')" class="text-secondary"><i class="fa fa-trash"></i></a>';
 				$data[] = $row;
 			}
@@ -781,11 +783,15 @@ class DashboardController extends BaseController
 		$kd_persyaratan = $this->request->getVar('kd_persyaratan');
 		$nm_persyaratan = $this->request->getVar('nm_persyaratan');
 		$id_beasiswa = $this->request->getVar('id_beasiswa');
+		$type_persyaratan = $this->request->getVar('type_persyaratan');
+		$nama_pilihan = $this->request->getVar('nama_pilihan');
+		$nilai_pilihan = $this->request->getVar('nilai_pilihan');
 
 		$validasi = [
 			'kd_persyaratan' => $kd_persyaratan,
 			'nm_persyaratan' => $nm_persyaratan,
-			'id_beasiswa' => $id_beasiswa
+			'id_beasiswa' => $id_beasiswa,
+			'type_persyaratan' => $type_persyaratan
 		];
 
 		if ($this->validation->run($validasi, 'insertPersyaratan') == FALSE) {
@@ -799,10 +805,13 @@ class DashboardController extends BaseController
 			$insert = [
 				'kd_persyaratan' => $kd_persyaratan,
 				'nm_persyaratan' => $nm_persyaratan,
-				'id_beasiswa' => $id_beasiswa
+				'id_beasiswa' => $id_beasiswa,
+				'type_persyaratan' => $type_persyaratan,
+				'nama_pilihan' => $nama_pilihan,
+				'nilai_pilihan' => $nilai_pilihan
 			];
 
-			$save = $this->persyaratan->save($insert);
+			$save = $this->persyaratan->savePersyaratan($insert);
 			if ($save) {
 				session()->setFlashdata('success', 'Tambah data persyaratan berhasil');
 				return redirect()->to(base_url('dashboard/persyaratan'));
@@ -1318,12 +1327,14 @@ class DashboardController extends BaseController
 
 	public function seleksi_detail($id)
 	{
+
 		$data = [
 			'title' => 'SPK Topsis',
 			'data' => $this->seleksi_detail->where('id_seleksi', dekrip($id))->find(),
 			'persyaratan' => $this->persyaratan->findAll(),
 			'lib' => $this->service_lib,
-			'id' => $id
+			'id' => $id,
+			'PilihanPersyaratanModel' => new PilihanPersyartanModel()
 		];
 		return view('seleksi/seleksi_detail', $data);
 	}

@@ -18,7 +18,7 @@
                   <!-- <h6 class="m-0 font-weight-bold text-secondary">Data User</h6> -->
                 </div>
                 <div class="table-responsive p-3">
-                  <a href="<?=base_url('dashboard/persyaratan_add')?>" class="btn btn-outline-primary btn-sm" style="margin-bottom: 10px;margin-top: -17px;"><i class="fa fa-plus"></i> Tambah</a>
+                  <a href="<?= base_url('dashboard/persyaratan_add') ?>" class="btn btn-outline-primary btn-sm" style="margin-bottom: 10px;margin-top: -17px;"><i class="fa fa-plus"></i> Tambah</a>
                   <table class="table align-items-center table-flush" id="myTablePersyaratan">
                     <thead class="thead-light">
                       <tr>
@@ -26,6 +26,7 @@
                         <th style="text-align: center;">Kode</th>
                         <th style="text-align: center;">Persyaratan</th>
                         <th style="text-align: center;">Beasiswa</th>
+                        <th style="text-align: center;">Type Persyartan</th>
                         <th style="text-align: center;width: 50px;">Aksi</th>
                       </tr>
                     </thead>
@@ -41,28 +42,39 @@
         </div>
         <!---Container Fluid-->
         <script>
-          $(document).ready(function () {
-            $('#myTablePersyaratan').DataTable({ 
+          $(document).ready(function() {
+            $('#myTablePersyaratan').DataTable({
               "responsive": true,
               "processing": true,
               "serverSide": true,
-              "order": [],
+              // "order": [],
               "ajax": {
-                "url": "<?php echo base_url('dashboard/persyaratan_list')?>",
+                "url": "<?php echo base_url('dashboard/persyaratan_list') ?>",
                 "type": "POST"
               },
-                //optional
-                "lengthMenu": [[5, 10, 25], [5, 10, 25]],
-                "columnDefs": [
-                { "targets": 0, "className": "dt-body-center" },
-                { "targets": 1, "className": "dt-body-center" },
-                { "targets": 4, "className": "dt-body-center" }
-                ],
-              });
+              //optional
+              "lengthMenu": [
+                [5, 10, 25],
+                [5, 10, 25]
+              ],
+              "columnDefs": [{
+                  "targets": 0,
+                  "className": "dt-body-center"
+                },
+                {
+                  "targets": 1,
+                  "className": "dt-body-center"
+                },
+                {
+                  "targets": 4,
+                  "className": "dt-body-center"
+                }
+              ],
+            });
           });
         </script>
         <script type="text/javascript">
-          function deletePersyaratan(id){
+          function deletePersyaratan(id) {
 
             Swal.fire({
               title: "",
@@ -74,23 +86,25 @@
               confirmButtonColor: "#fc544b",
               confirmButtonText: "Ya"
             }).then((res) => {
-              if(res.value){
+              if (res.value) {
                 var en = id + '-project';
                 var id_en = btoa(en);
                 $.ajax({
                   type: "DELETE",
-                  url: "<?=base_url('dashboard/persyaratan_delete')?>",
-                  cache:false,
-                  data: {id:id_en},
-                  success: function(response){
-                    if(response.status == 201){
+                  url: "<?= base_url('dashboard/persyaratan_delete') ?>",
+                  cache: false,
+                  data: {
+                    id: id_en
+                  },
+                  success: function(response) {
+                    if (response.status == 201) {
                       Swal.fire({
                         title: "",
                         text: response.message,
                         type: "success",
                         confirmButtonColor: "#66bb6a",
                         confirmButtonText: "Ok"
-                      }).then(function(){
+                      }).then(function() {
                         location.reload();
                       });
                     } else {
@@ -104,7 +118,7 @@
                     }
                   }
                 });
-              } else if(res.dismiss == 'cancel'){
+              } else if (res.dismiss == 'cancel') {
                 console.log('cancel');
               }
             });
