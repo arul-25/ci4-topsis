@@ -102,6 +102,8 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
     $routes->get('seleksi_detail/(:any)', 'DashboardController::seleksi_detail/$1');
     $routes->post('seleksi_detail_update', 'DashboardController::seleksi_detail_update');
 
+    $routes->get('cetak', 'DashboardController::cetak');
+
     $routes->match(['post', 'get'], 'hitung', 'DashboardController::hitung');
 
     $routes->match(['post', 'get'], 'hasil', 'DashboardController::hasil');
