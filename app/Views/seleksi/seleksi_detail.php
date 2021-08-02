@@ -23,6 +23,7 @@
                   $data_mahasiswa = $lib->getAllDataMahasiswa($id_mahasiswa);
                   $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
                   $id_seleksi = dekrip($id);
+                  $bobots = [];
                   ?>
                   <div class="col-md-6">
                     <table style="margin-bottom: 50px;">
@@ -60,12 +61,16 @@
 
                         <?php $jawaban = $lib->getJawaban($id_seleksi, $rows['id']); ?>
 
+                        <?php $bobot = $BobotModel->where('id_persyaratan', $rows['id'])->findAll(); ?>
+                        <?php $bobots[] = $bobot; ?>
+
                         <?php if ($rows['type_persyaratan'] == 'jawaban') : ?>
                           <div class="form-group row">
                             <input type="hidden" name="id_persyaratan[]" value="<?= $rows['id']; ?>">
                             <label for="jawaban" class="col-sm-5 col-form-label"><?= $rows['nm_persyaratan']; ?></label>
                             <div class="col-sm-7">
                               <input type="number" name="jawaban[]" class="form-control" placeholder="Jawaban" value="<?= $jawaban; ?>" required="required">
+                              <span class="text-danger"><?= !$bobot ? "Bobot " . $rows['nm_persyaratan'] . " belum ada" : ''; ?></span>
                             </div>
                           </div>
 
@@ -82,19 +87,25 @@
                                   <?php $dataPersyaratan[] = $dt; ?>
                                 <?php endforeach; ?>
                               </select>
-                              <span class="text-danger"><?php if (isset($validation['type_persyaratan']) != '') echo $validation['type_persyaratan']; ?></span>
+                              <span class="text-danger"><?= !$bobot ? "Bobot " . $rows['nm_persyaratan'] . " belum ada" : ''; ?></span>
                             </div>
                           </div>
 
                         <?php endif; ?>
                       <?php endforeach; ?>
                       <div class="form-group row">
+
                         <div class="col-sm-12" align="right">
                           <?php if ($dataPersyaratan) : ?>
-                            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
+                            <?php if (!$bobots) : ?>
+                              <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
+                            <?php endif; ?>
                           <?php endif; ?>
                           <a href="<?= base_url('dashboard/seleksi') ?>" class="btn btn-outline-warning btn-sm"><i class="fa fa-undo-alt"></i> Batal</a>
                         </div>
+                        <?php if ($bobots) : ?>
+                          <span class="text-danger mt-4">Ada Persyaratan yang belum mempunyai bobot. isi terlebih dahulu</span>
+                        <?php endif; ?>
                       </div>
                     </form>
                   </div>

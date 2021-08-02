@@ -954,9 +954,16 @@ class DashboardController extends BaseController
 
 	public function bobot_add()
 	{
+		$bobot = $this->bobot->select('id_persyaratan')->findAll();
+		$id_bobot = [];
+
+		foreach ($bobot as $row) {
+			$id_bobot[] = $row['id_persyaratan'];
+		}
 		$data = [
 			'title' => 'SPK Topsis',
-			'persyaratan' => $this->persyaratan->findAll()
+			'persyaratan' => $this->persyaratan->findAll(),
+			'bobot' => $id_bobot
 		];
 		return view('bobot/bobot_add', $data);
 	}
@@ -1346,13 +1353,13 @@ class DashboardController extends BaseController
 
 	public function seleksi_detail($id)
 	{
-
 		$data = [
 			'title' => 'SPK Topsis',
 			'data' => $this->seleksi_detail->where('id_seleksi', dekrip($id))->find(),
 			'persyaratan' => $this->persyaratan->findAll(),
 			'lib' => $this->service_lib,
 			'id' => $id,
+			'BobotModel' => new Bobot_Model(),
 			'PilihanPersyaratanModel' => new PilihanPersyartanModel()
 		];
 		return view('seleksi/seleksi_detail', $data);
