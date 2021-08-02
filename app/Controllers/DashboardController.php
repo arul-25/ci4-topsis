@@ -824,10 +824,15 @@ class DashboardController extends BaseController
 
 	public function persyaratan_edit($id)
 	{
+		$psModel = new PilihanPersyartanModel();
+		$dataPersyaratan = $this->persyaratan->find(dekrip($id));
+		$dataPilihanPersyaratan = $dataPersyaratan ? $psModel->where('id_persyaratan', dekrip($id))->findAll() : null;
 		$data = [
 			'title' => 'SPK Topsis',
-			'data' => $this->persyaratan->find(dekrip($id)),
+			'data' => $dataPersyaratan,
 			'beasiswa' => $this->beasiswa->findAll(),
+			'pilihan_persyaratan' => $dataPilihanPersyaratan,
+			'validation' => $this->validation->getErrors(),
 			'id' => $id
 		];
 		return view('persyaratan/persyaratan_edit', $data);
@@ -837,33 +842,47 @@ class DashboardController extends BaseController
 	{
 		$dekrip = $this->request->getVar('id');
 		$kd_persyaratan = $this->request->getVar('kd_persyaratan');
+		$kd_persyaratan_old = $this->request->getVar('kd_persyaratan_old');
 		$nm_persyaratan = $this->request->getVar('nm_persyaratan');
+		$type_persyaratan = $this->request->getVar('type_persyaratan');
 		$id_beasiswa = $this->request->getVar('id_beasiswa');
+		$nama_pilihan = $this->request->getVar('nama_pilihan');
+		$nilai_pilihan = $this->request->getVar('nilai_pilihan');
 		$id = dekrip($dekrip);
 
-		$validasi = [
-			'kd_persyaratan' => $kd_persyaratan,
-			'nm_persyaratan' => $nm_persyaratan,
-			'id_beasiswa' => $id_beasiswa
-		];
+		$psModel = new PilihanPersyartanModel();
+		$rules = $this->validation->getRuleGroup('insertPersyaratan');
 
-		if ($this->validation->run($validasi, 'insertPersyaratan') == FALSE) {
+		if ($kd_persyaratan != $kd_persyaratan_old && count($this->persyaratan->where('kd_persyaratan', $kd_persyaratan)->findAll()) > 0) {
+			$rules['kd_persyaratan']['rules'] = "required|is_unique[persyaratan.kd_persyaratan]";
+			$rules['kd_persyaratan']['errors'] = [
+				'is_unique' => '{field} sudah digunakan. ganti dengan yang lain'
+			];
+		}
+
+		if (!$this->validate($rules)) {
+			$dataPilihanPersyaratan = $psModel->where('id_persyaratan', $id)->findAll();
 			$data = [
 				'title' => 'SPK Topsis',
 				'validation' => $this->validation->getErrors(),
 				'data' => $this->persyaratan->find($id),
 				'beasiswa' => $this->beasiswa->findAll(),
+				'pilihan_persyaratan' => $dataPilihanPersyaratan,
 				'id' => $dekrip
 			];
 			return view('persyaratan/persyaratan_edit', $data);
 		} else {
 
-			$edit = [
+			$insert = [
 				'kd_persyaratan' => $kd_persyaratan,
 				'nm_persyaratan' => $nm_persyaratan,
-				'id_beasiswa' => $id_beasiswa
+				'id_beasiswa' => $id_beasiswa,
+				'type_persyaratan' => $type_persyaratan,
+				'nama_pilihan' => $nama_pilihan,
+				'nilai_pilihan' => $nilai_pilihan,
+				'id' => $id
 			];
-			$update = $this->persyaratan->where('id', $id)->set($edit)->update();
+			$update = $this->persyaratan->updatePersyaratan($insert);
 			if ($update) {
 				session()->setFlashdata('success', 'Update data persyaratan berhasil');
 				return redirect()->to(base_url('dashboard/persyaratan'));
@@ -880,7 +899,7 @@ class DashboardController extends BaseController
 		$id_en = $input['id'];
 		$id = dekrip($id_en);
 
-		$delete = $this->persyaratan->delete($id);
+		$delete = $this->persyaratan->deletePersyaratan($id);
 		if ($delete) {
 			$response = [
 				'status' => 201,

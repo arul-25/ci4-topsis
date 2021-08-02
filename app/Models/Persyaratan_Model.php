@@ -12,7 +12,7 @@ class Persyaratan_Model extends Model
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
     protected $allowedFields = ['kd_persyaratan', 'nm_persyaratan', 'id_beasiswa', 'type_persyaratan'];
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -125,5 +125,84 @@ class Persyaratan_Model extends Model
         }
         $this->db->transCommit();
         return true;
+    }
+
+    public function updatePersyaratan(array $data)
+    {
+        $psModel = new PilihanPersyartanModel();
+        $psData = $psModel->where('id_persyaratan', $data['id'])->findAll();
+
+        if ($data['type_persyaratan'] != 'pilihan') {
+            unset($data['nama_pilihan']);
+            unset($data['nilai_pilihan']);
+
+            if ($psData) {
+                $this->db->transBegin();
+
+                $psModel->where('id_persyaratan', $data['id'])->delete();
+                $this->save($data);
+
+                if ($this->db->transStatus() === FALSE) {
+                    $this->db->transRollback();
+                    return false;
+                }
+
+                $this->db->transCommit();
+                return true;
+            }
+
+            $this->save($data);
+            return true;
+        }
+
+        $this->db->transBegin();
+
+        $persyaratan = [
+            'kd_persyaratan' => $data['kd_persyaratan'],
+            'nm_persyaratan' => $data['nm_persyaratan'],
+            'id_beasiswa' => $data['id_beasiswa'],
+            'type_persyaratan' => $data['type_persyaratan'],
+            'id' => $data['id']
+        ];
+
+        $this->save($persyaratan);
+
+        $jumlahPilihanPersyaratan = count($data['nama_pilihan']);
+
+        if ($psData) {
+            $psModel->where('id_persyaratan', $data['id'])->delete();
+        }
+
+        for ($i = 0; $i < $jumlahPilihanPersyaratan; $i++) {
+            $dataPersyaratan = [
+                'id_persyaratan' => $data['id'],
+                'pilihan' => $data['nama_pilihan'][$i],
+                'nilai_pilihan' => (int) $data['nilai_pilihan'][$i]
+            ];
+
+            $psModel->save($dataPersyaratan);
+        }
+
+        if ($this->db->transStatus() === FALSE) {
+            $this->db->transRollback();
+            return false;
+        }
+
+        $this->db->transCommit();
+        return true;
+    }
+
+    public function deletePersyaratan($id)
+    {
+        $this->db->transBegin();
+
+        $psModel = new PilihanPersyartanModel();
+        $psData = $psModel->where('id_persyaratan', $id)->findAll();
+
+        if ($psData) {
+            $psModel->where('id_persyaratan', $id)->delete();
+        }
+
+        $this->delete($id);
     }
 }

@@ -88,7 +88,7 @@
               let type_persyaratan = $('#type_persyaratan').val();
 
               if (type_persyaratan != 'pilihan') {
-                $('.form-type').html('');
+                $('.form-type').remove();
               } else {
                 let form = createFormType();
                 $('form .button').before(form)
@@ -147,7 +147,4 @@
           }
         </script>
 
-        <script>
-
-        </script>
         <?= $this->endSection() ?>

@@ -80,4 +80,9 @@ class Seleksi_Model extends Model
         $tbl_storage = $this->db->table($this->table)->where('deleted_at', NULL);
         return $tbl_storage->countAllResults();
     }
+
+    /* public function save($data): bool
+    {
+        
+    } */
 }
