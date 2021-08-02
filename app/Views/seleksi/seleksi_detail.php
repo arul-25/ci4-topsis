@@ -62,7 +62,7 @@
                         <?php $jawaban = $lib->getJawaban($id_seleksi, $rows['id']); ?>
 
                         <?php $bobot = $BobotModel->where('id_persyaratan', $rows['id'])->findAll(); ?>
-                        <?php $bobots[] = $bobot; ?>
+                        <?php $bobot ? $bobots[] = $bobot : $bobot; ?>
 
                         <?php if ($rows['type_persyaratan'] == 'jawaban') : ?>
                           <div class="form-group row">
@@ -83,7 +83,7 @@
                                 <option value="">Pilih</option>
 
                                 <?php foreach ($PilihanPersyaratanModel->where('id_persyaratan', $rows['id'])->findAll() as $dt) : ?>
-                                  <option value="<?= $dt['nilai_pilihan']; ?>"><?= $dt['pilihan']; ?></option>
+                                  <option <?= $jawaban == $dt['nilai_pilihan'] ? 'selected' : ''; ?> value="<?= $dt['nilai_pilihan']; ?>"><?= $dt['pilihan']; ?></option>
                                   <?php $dataPersyaratan[] = $dt; ?>
                                 <?php endforeach; ?>
                               </select>
@@ -97,14 +97,14 @@
 
                         <div class="col-sm-12" align="right">
                           <?php if ($dataPersyaratan) : ?>
-                            <?php if (!$bobots) : ?>
+                            <?php if (count($bobots) == count($persyaratan)) : ?>
                               <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
                             <?php endif; ?>
                           <?php endif; ?>
                           <a href="<?= base_url('dashboard/seleksi') ?>" class="btn btn-outline-warning btn-sm"><i class="fa fa-undo-alt"></i> Batal</a>
                         </div>
-                        <?php if ($bobots) : ?>
-                          <span class="text-danger mt-4">Ada Persyaratan yang belum mempunyai bobot. isi terlebih dahulu</span>
+                        <?php if (count($bobots) < count($persyaratan)) : ?>
+                          <span class="text-danger mt-4">Ada Persyaratan yang belum mempunyai bobot. isi bobot terlebih dahulu</span>
                         <?php endif; ?>
                       </div>
                     </form>

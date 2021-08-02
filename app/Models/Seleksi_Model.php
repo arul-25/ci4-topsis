@@ -12,7 +12,7 @@ class Seleksi_Model extends Model
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
     protected $allowedFields = ['kd_seleksi', 'thn_akademik', 'id_beasiswa', 'id_mahasiswa', 'tgl_seleksi', 'status_terima', 'id_prodi', 'nilai'];
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -79,6 +79,22 @@ class Seleksi_Model extends Model
     {
         $tbl_storage = $this->db->table($this->table)->where('deleted_at', NULL);
         return $tbl_storage->countAllResults();
+    }
+
+    public function deleteSeleksi($id)
+    {
+        $sdModel = new SeleksiDetail_Model();
+        $this->db->transBegin();
+
+        $sdModel->where('id_seleksi', $id)->delete();
+        $this->delete($id);
+
+        if ($this->db->transStatus() === FALSE) {
+            $this->db->transRollback();
+            return false;
+        }
+        $this->db->transCommit();
+        return true;
     }
 
     /* public function save($data): bool

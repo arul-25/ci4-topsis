@@ -981,10 +981,17 @@ class DashboardController extends BaseController
 		];
 
 		if ($this->validation->run($validasi, 'insertBobot') == FALSE) {
+			$bobot = $this->bobot->select('id_persyaratan')->findAll();
+			$id_bobot = [];
+
+			foreach ($bobot as $row) {
+				$id_bobot[] = $row['id_persyaratan'];
+			}
 			$data = [
 				'title' => 'SPK Topsis',
 				'validation' => $this->validation->getErrors(),
-				'persyaratan' => $this->persyaratan->findAll()
+				'persyaratan' => $this->persyaratan->findAll(),
+				'bobot' => $id_bobot
 			];
 			return view('bobot/bobot_add', $data);
 		} else {
@@ -1335,7 +1342,7 @@ class DashboardController extends BaseController
 		$id_en = $input['id'];
 		$id = dekrip($id_en);
 
-		$delete = $this->seleksi->delete($id);
+		$delete = $this->seleksi->deleteSeleksi($id);
 		if ($delete) {
 			$response = [
 				'status' => 201,
