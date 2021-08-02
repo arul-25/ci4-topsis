@@ -144,7 +144,7 @@ class Service_Lib extends Model
                     continue;
                 } else {
                     foreach ($qry2 as $row2) {
-                        $data2[$no][] = $row2['bobot'] * $row2['jawaban'];
+                        $data2[$no][] = (int) $row2['bobot'] * (int)$row2['jawaban'];
                     }
 
                     $nilai = array_sum($data2[$no]);

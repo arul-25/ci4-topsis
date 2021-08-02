@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2021 at 06:12 PM
+-- Generation Time: Aug 02, 2021 at 07:57 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -61,17 +61,6 @@ CREATE TABLE `bobot` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `bobot`
---
-
-INSERT INTO `bobot` (`id`, `thn_akademik`, `id_persyaratan`, `bobot`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '2021', 1, 5, '2021-07-27 22:55:19', '2021-07-27 22:55:19', NULL),
-(2, '2021', 2, 4, '2021-07-27 22:55:43', '2021-07-27 22:55:43', NULL),
-(3, '2021', 3, 3, '2021-07-27 22:56:00', '2021-07-27 22:56:00', NULL),
-(4, '2021', 4, 2, '2021-07-27 22:58:28', '2021-07-27 22:58:28', NULL),
-(5, '2021', 5, 2, '2021-07-27 22:58:50', '2021-07-27 23:11:07', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -89,25 +78,6 @@ CREATE TABLE `detail_seleksi` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `detail_seleksi`
---
-
-INSERT INTO `detail_seleksi` (`id`, `id_seleksi`, `id_mahasiswa`, `id_persyaratan`, `jawaban`, `bobot`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, 1, '1000000', '5', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(2, 1, 1, 2, '2', '4', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(3, 1, 1, 3, '2', '3', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(4, 1, 1, 4, '3.50', '2', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(5, 1, 1, 5, '30', '2', '2021-07-31 15:43:37', '2021-07-31 15:43:37', NULL),
-(6, 6, 10, 1, '3400000', '5', '2021-08-01 00:22:34', '2021-08-01 00:30:29', NULL),
-(7, 6, 10, 2, 'Swasta', '4', '2021-08-01 00:22:34', '2021-08-01 00:30:30', NULL),
-(8, 6, 10, 3, 'Ada', '3', '2021-08-01 00:22:35', '2021-08-01 00:30:30', NULL),
-(9, 6, 10, 4, 'SMA', '2', '2021-08-01 00:22:35', '2021-08-01 00:30:30', NULL),
-(10, 7, 7, 1, '700.000', '5', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
-(11, 7, 7, 2, 'Swasta', '4', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
-(12, 7, 7, 3, 'ada', '3', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL),
-(13, 7, 7, 4, 'sma', '2', '2021-08-01 00:41:07', '2021-08-01 00:41:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -189,17 +159,6 @@ CREATE TABLE `persyaratan` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `persyaratan`
---
-
-INSERT INTO `persyaratan` (`id`, `kd_persyaratan`, `nm_persyaratan`, `id_beasiswa`, `type_persyaratan`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'P0121', 'Penghasilan Orang Tua', 1, NULL, '2021-07-27 18:40:05', '2021-08-01 00:14:49', NULL),
-(2, 'P0221', 'Pekerjaan Orang Tua', 1, NULL, '2021-07-27 18:41:08', '2021-08-01 00:15:08', NULL),
-(3, 'P0321', 'Fotocopy KK dan KTP', 1, NULL, '2021-07-27 18:41:44', '2021-08-01 00:15:25', NULL),
-(4, 'P0421', 'Pendidikan Orang Tua', 1, NULL, '2021-07-27 18:43:46', '2021-08-01 00:15:43', NULL),
-(5, 'P0521', 'Usia', 1, NULL, '2021-07-27 18:44:04', '2021-08-01 00:16:02', '2021-08-01 00:16:02');
-
 -- --------------------------------------------------------
 
 --
@@ -256,20 +215,6 @@ CREATE TABLE `seleksi` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `seleksi`
---
-
-INSERT INTO `seleksi` (`id`, `kd_seleksi`, `thn_akademik`, `id_beasiswa`, `id_mahasiswa`, `status_terima`, `tgl_seleksi`, `id_prodi`, `nilai`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'S21001', '2021', 1, 1, NULL, '2021-08-01', 1, 0.500008100000, '2021-07-31 15:14:08', '2021-07-31 15:14:08', NULL),
-(2, 'S21002', '2021', 1, 2, NULL, '2021-08-01', 1, NULL, '2021-07-31 15:14:50', '2021-07-31 15:14:50', NULL),
-(3, 'S21003', '2021', 1, 3, NULL, '2021-08-01', 1, NULL, '2021-07-31 15:15:32', '2021-07-31 15:15:32', NULL),
-(4, 'S3001', '2021', 1, 4, NULL, '2021-08-01', 2, NULL, '2021-07-31 15:59:58', '2021-07-31 16:06:05', '2021-07-31 16:06:05'),
-(5, 'S3001', '2021', 1, 4, NULL, '2021-08-01', 2, NULL, '2021-07-31 16:21:01', '2021-08-01 00:22:46', '2021-08-01 00:22:46'),
-(6, 'S21002', '2021', 1, 10, NULL, '2021-08-01', 2, NULL, '2021-08-01 00:21:10', '2021-08-01 00:33:27', NULL),
-(7, 'S21001', '2021', 1, 7, NULL, '2021-08-01', 2, NULL, '2021-08-01 00:40:02', '2021-08-01 00:40:02', NULL),
-(8, 'S21003', '2021', 1, 5, NULL, '2021-08-01', 2, NULL, '2021-08-01 06:04:30', '2021-08-01 06:04:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -378,13 +323,13 @@ ALTER TABLE `beasiswa`
 -- AUTO_INCREMENT for table `bobot`
 --
 ALTER TABLE `bobot`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `detail_seleksi`
 --
 ALTER TABLE `detail_seleksi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kouta`
@@ -402,7 +347,7 @@ ALTER TABLE `mahasiswa`
 -- AUTO_INCREMENT for table `persyaratan`
 --
 ALTER TABLE `persyaratan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pilihan_persyaratan`
@@ -420,7 +365,7 @@ ALTER TABLE `prodi`
 -- AUTO_INCREMENT for table `seleksi`
 --
 ALTER TABLE `seleksi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
