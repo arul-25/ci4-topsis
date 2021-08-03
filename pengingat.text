@@ -1,5 +1,8 @@
 -- quota belum berelasi dengan seleksi.
 -- ketika data seleksi terisi data kuota tidak berkurang, seharusnya berkurang sesuai dengan berapa jumlah data seleksi yang diinput.
 -- ada bug di perhitungan, ketika jawaban dari persyaratan adalah huruf/kata bukan angka {clear}
--- relasi table antar persyaratan dan bobot seharusnya satu ke satu bukan satu kebanyak.
--- bug di form detail seleksi, data detail seleksi bisa di isi pdahala ada data persyaratan yang belum mempunyai data bobot.
+-- relasi table antar persyaratan dan bobot seharusnya satu ke satu bukan satu kebanyak. {clear}
+-- bug di form detail seleksi, data detail seleksi bisa di isi pdahala ada data persyaratan yang belum mempunyai data bobot. {clear}
+-- ada bug di update seleksi, ketika mahasiswa dari seleksi diganti, data mahasiswa di detail seleksi tidak terganti, harusnya ikut terganti sesuai dengan data di detail seleksi,
+-- update bobot belum selesai
+-- laporan belum

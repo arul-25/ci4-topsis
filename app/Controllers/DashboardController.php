@@ -1167,12 +1167,10 @@ class DashboardController extends BaseController
 			$id_prodi = '';
 		}
 
-
-
 		$data = [
 			'title' => 'SPK Topsis',
 			'beasiswa' => $this->beasiswa->findAll(),
-			'prodi' => $this->prodi->where('id', session()->get('id_prodi'))->findAll(),
+			'prodi' => $this->prodi->find(session()->get('id_prodi')),
 			'thn_akademik' => $thn_akademik,
 			'id_beasiswa' => $id_beasiswa,
 			'id_prodi' => $id_prodi,

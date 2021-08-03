@@ -20,6 +20,7 @@
                 </div>
                 <div class="table-responsive p-3">
                   <form action="<?= base_url('dashboard/hasil') ?>" method="post" style="margin-top: 10px;">
+                    <input type="hidden" name="id_prodi" value="<?= $prodi['id']; ?>">
                     <div class="form-group row">
                       <label for="thn_akademik" class="col-sm-4 col-form-label">Tahun Akademik</label>
                       <div class="col-sm-8">
@@ -39,19 +40,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="form-group row">
-                      <label for="id_prodi" class="col-sm-4 col-form-label">Prodi</label>
-                      <div class="col-sm-8">
-                        <select class="select2-single-placeholder2 form-control" name="id_prodi">
-                          <option value="">Select</option>
-                          <?php
-                          foreach ($prodi as $rowp) {
-                            echo '<option value="' . $rowp['id'] . '" ' . ((isset($_POST['id_beasiswa']) && $_POST['id_prodi'] == $rowb['id']) ? 'selected' : '') . '>[' . $rowp['kd_prodi'] . '] ' . $rowp['nm_prodi'] . '</option>';
-                          }
-                          ?>
-                        </select>
-                      </div>
-                    </div>
+
                     <div class="form-group row">
                       <div class="col-sm-12" align="right">
                         <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i> Cari</button>
