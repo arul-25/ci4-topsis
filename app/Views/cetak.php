@@ -149,42 +149,27 @@
             <section class="data-laporan">
                 <h5 class="text-center">Laporan Hasil Perhitungan</h5>
                 <table class="table1">
-                    <tr>
+                    <thead>
                         <th>No</th>
+                        <th>NPM</th>
                         <th>Nama</th>
-                        <th>Alamat</th>
-                        <th>Usia</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Andi Saputra</td>
-                        <td>Magelang</td>
-                        <td>21</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Budi Budiman</td>
-                        <td>Jakarta</td>
-                        <td>24</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Calvin Sanusi</td>
-                        <td>Malang</td>
-                        <td>29</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Diki</td>
-                        <td>Bandung</td>
-                        <td>24</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Malas Ngoding</td>
-                        <td>Medan</td>
-                        <td>23</td>
-                    </tr>
+                        <th>Prodi</th>
+                        <th>Nilai</th>
+                        <th>Status</th>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; ?>
+                        <?php foreach ($data as $row) : ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= $row['npm']; ?></td>
+                                <td><?= $row['nama']; ?></td>
+                                <td><?= $row['nm_prodi']; ?></td>
+                                <td><?= $row['nilai']; ?></td>
+                                <td><?= $row['status_terima']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
             </section>
         </div>

@@ -90,11 +90,12 @@ class Service_Lib extends Model
 
     public function getKoutaBeasiswa($thn_akademik, $id_beasiswa, $id_prodi)
     {
-        $nama = '';
+        $nama = [];
         $qry = $this->db->table('kouta')->where('thn_akademik', $thn_akademik)->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->get()->getResultArray();
         if (count($qry) > 0) {
             foreach ($qry as $key) {
-                $nama = $key['kouta'];
+                $nama['kuota'] = $key['kouta'];
+                $nama['id'] = $key['id'];
             }
         }
 
@@ -127,7 +128,7 @@ class Service_Lib extends Model
         return $nama;
     }
 
-    public function perhitungan($thn_akademik, $id_beasiswa, $id_prodi)
+    public function perhitungan($thn_akademik, $id_beasiswa, $id_prodi, $id_kuota, $jumlah_kuota)
     {
         $data = array();
         $data2 = array();
@@ -152,11 +153,26 @@ class Service_Lib extends Model
                     $hasil = $nilai / $pangkat;
 
                     array_push($data, array('id_mahasiswa' => $row['id_mahasiswa'], 'id_seleksi' => $row['id'], 'nilai' => $hasil));
+
                     $this->db->table('seleksi')->where('id', $row['id'])->set(['nilai' => $hasil])->update();
                     $no++;
                 }
             }
-            if ($data) return $data;
+            if ($data) {
+                $dtSeleksi = $this->db->table('seleksi')->select('id')->where('id_kouta', $id_kuota)->where('nilai is not null')->orderBy('nilai', 'DESC')->get()->getResultArray();
+
+                for ($i = 0; $i < count($dtSeleksi); $i++) {
+                    $status = $i <= ($jumlah_kuota - 1) ? 'Layak' : 'Tidak Layak';
+
+                    $this->db->table('seleksi')->where('id', $dtSeleksi[$i]['id'])->set(['status_terima' => $status])->update();
+                }
+
+                // $jmlhKuotaBaru = $jumlah_kuota >= count($dtSeleksi) ? $jumlah_kuota - count($dtSeleksi) : 0;
+
+                // $this->db->table('kouta')->where('id', $id_kuota)->set(['kouta' => $jmlhKuotaBaru])->update();
+
+                return $data;
+            }
             session()->setFlashdata('errors', 'Data Detail Seleksi Masih kosong. Isi Data Terlebih Dahulu');
             return null;
         } else {

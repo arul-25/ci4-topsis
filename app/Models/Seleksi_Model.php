@@ -11,7 +11,7 @@ class Seleksi_Model extends Model
     protected $table = 'seleksi';
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
-    protected $allowedFields = ['kd_seleksi', 'thn_akademik', 'id_beasiswa', 'id_mahasiswa', 'tgl_seleksi', 'status_terima', 'id_prodi', 'nilai'];
+    protected $allowedFields = ['kd_seleksi', 'thn_akademik', 'id_beasiswa', 'id_mahasiswa', 'tgl_seleksi', 'status_terima', 'id_prodi', 'id_kouta', 'nilai'];
     protected $useSoftDeletes = false;
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

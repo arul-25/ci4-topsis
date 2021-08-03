@@ -1167,7 +1167,10 @@ class DashboardController extends BaseController
 			$thn_akademik = $this->request->getVar('thn_akademik');
 			$id_beasiswa = $this->request->getVar('id_beasiswa');
 			$id_prodi = $this->request->getVar('id_prodi');
-			$perhitungan = $this->service_lib->perhitungan($thn_akademik, $id_beasiswa, $id_prodi);
+
+			$dtKuota = $this->kouta->where('thn_akademik', $thn_akademik)->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->first();
+
+			$perhitungan = $this->service_lib->perhitungan($thn_akademik, $id_beasiswa, $id_prodi, $dtKuota['id'], $dtKuota['kouta']);
 			if ($perhitungan == null) return redirect()->to(base_url('dashboard/hasil'));
 		} else {
 			$thn_akademik = '';
@@ -1182,7 +1185,7 @@ class DashboardController extends BaseController
 			'thn_akademik' => $thn_akademik,
 			'id_beasiswa' => $id_beasiswa,
 			'id_prodi' => $id_prodi,
-			'data' => $this->seleksi->select('id_mahasiswa, nilai')->where('id_prodi', session()->get('id_prodi'))->where('nilai !=', 'null')->orderBy('nilai', 'DESC')->findAll(),
+			'data' => $this->seleksi->select('*')->join('prodi', 'seleksi.id_prodi = prodi.id')->join('mahasiswa', 'seleksi.id_mahasiswa = mahasiswa.id')->where('seleksi.id_beasiswa', $id_beasiswa)->where('seleksi.id_prodi', session()->get('id_prodi'))->where('nilai !=', 'null')->orderBy('nilai', 'DESC')->findAll(),
 			// 'data' => $perhitungan,
 			'lib' => $this->service_lib
 		];
@@ -1259,13 +1262,15 @@ class DashboardController extends BaseController
 			];
 			return view('seleksi/seleksi_add', $data);
 		} else {
+			$id_kuota = $this->kouta->select('id')->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->first();
 			$insert = [
 				'kd_seleksi' => $kd_seleksi,
 				'thn_akademik' => $thn_akademik,
 				'id_beasiswa' => $id_beasiswa,
 				'id_mahasiswa' => $id_mahasiswa,
 				'tgl_seleksi' => $tgl_seleksi,
-				'id_prodi' => $id_prodi
+				'id_prodi' => $id_prodi,
+				'id_kouta' => $id_kuota['id']
 			];
 
 			$save = $this->seleksi->save($insert);
@@ -1285,7 +1290,7 @@ class DashboardController extends BaseController
 			'title' => 'SPK Topsis',
 			'data' => $this->seleksi->find(dekrip($id)),
 			'beasiswa' => $this->beasiswa->findAll(),
-			'mahasiswa' => $this->mahasiswa->findAll(),
+			'mahasiswa' => $this->mahasiswa->where('id_prodi', session()->get('id_prodi'))->findAll(),
 			'id' => $id
 		];
 		return view('seleksi/seleksi_edit', $data);
@@ -1322,14 +1327,15 @@ class DashboardController extends BaseController
 			];
 			return view('seleksi/seleksi_edit', $data);
 		} else {
-
+			$id_kuota = $this->kouta->select('id')->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->first();
 			$edit = [
 				'kd_seleksi' => $kd_seleksi,
 				'thn_akademik' => $thn_akademik,
 				'id_beasiswa' => $id_beasiswa,
 				'id_mahasiswa' => $id_mahasiswa,
 				'tgl_seleksi' => $tgl_seleksi,
-				'id_prodi' => $id_prodi
+				'id_prodi' => $id_prodi,
+				'id_kouta' => $id_kuota['id']
 			];
 			$update = $this->seleksi->where('id', $id)->set($edit)->update();
 			if ($update) {
@@ -1420,7 +1426,11 @@ class DashboardController extends BaseController
 
 	public function cetak()
 	{
-		$html = view('cetak');
+		$id_beasiswa = $this->request->getVar('id_beasiswa');
+
+		$data['data'] = $this->seleksi->select('*')->join('prodi', 'seleksi.id_prodi = prodi.id')->join('mahasiswa', 'seleksi.id_mahasiswa = mahasiswa.id')->where('seleksi.id_beasiswa', $id_beasiswa)->where('seleksi.id_prodi', session()->get('id_prodi'))->where('nilai !=', 'null')->orderBy('nilai', 'DESC')->findAll();
+
+		$html = view('cetak', $data);
 
 		$pdf = new Mpdf();
 

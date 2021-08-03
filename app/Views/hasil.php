@@ -47,15 +47,31 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="id_beasiswa" class="col-sm-4 col-form-label">Kouta Beasiswa</label>
-                      <div class="col-sm-8">
+                      <label for="id_beasiswa" class="col-sm-2 col-form-label">Kouta Beasiswa</label>
+                      <div class="col-sm-4 mt-1">
                         <?php
                         $kouta = $lib->getKoutaBeasiswa($thn_akademik, $id_beasiswa, $id_prodi);
-                        echo $kouta ? $kouta : 0 . ' orang';
+                        if ($kouta) {
+                          $jumlah = $kouta['kuota'] >= count($data) ? $kouta['kuota'] - count($data) : 0;
+                          echo $jumlah . ' Orang';
+                        } else {
+                          echo 0 . ' Orang';
+                        }
                         ?>
                       </div>
                     </div>
                   </form>
+                  <?php if (isset($_POST['id_beasiswa']) && isset($_POST['id_prodi']) && isset($_POST['thn_akademik'])) : ?>
+                    <form action="<?= base_url('dashboard/cetak'); ?>" method="POST">
+                      <div class="form-group row">
+                        <div class="col-sm-12" align="right">
+                          <input type="hidden" name="id_beasiswa" value="<?= $_POST['id_beasiswa']; ?>">
+                          <input type="hidden" name="id_prodi" value="<?= session()->get('id_prodi') ?>">
+                          <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-print"></i> Cetak</button>
+                        </div>
+                      </div>
+                    </form>
+                  <?php endif; ?>
                   <table class="table align-items-center table-flush" id="myTableSeleksi">
                     <thead class="thead-light">
                       <tr>
@@ -72,8 +88,17 @@
                       if (isset($_POST['id_beasiswa']) && isset($_POST['id_prodi']) && isset($_POST['thn_akademik'])) {
                         $data_nilai = array();
                         // $data_nilai_new = array();
-                        foreach ($data as $key) {
-                          $data_nilai[] = array($key['id_mahasiswa'] => $key['nilai']);
+                        $no = 1;
+                        foreach ($data as $row) {
+                          echo '<tr>';
+                          echo '<td>' . $no . '</td>';
+                          echo '<td>' . $row['npm'] . '</td>';
+                          echo '<td>' . $row['nama'] . '</td>';
+                          echo '<td>' . $row['nm_prodi'] . '</td>';
+                          echo '<td>' . $row['nilai'] . '</td>';
+                          echo '<td>' . $row['status_terima'] . '</td>';
+                          echo '</tr>';
+                          $no++;
                         }
 
                         // asort($data_nilai);
@@ -81,20 +106,20 @@
                         //   $data_nilai_new[] = array($v);
                         // }
 
-                        $no = 1;
-                        foreach ($data_nilai as $row) {
-                          $data_mahasiswa = $lib->getAllDataMahasiswa(array_keys($row)[0]);
-                          $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
-                          echo '<tr>';
-                          echo '<td>' . $no . '</td>';
-                          echo '<td>' . $data_mahasiswa->npm . '</td>';
-                          echo '<td>' . $data_mahasiswa->nama . '</td>';
-                          echo '<td>' . $data_prodi . '</td>';
-                          echo '<td>' . array_values($row)[0] . '</td>';
-                          echo '<td>' . (($no <= $kouta) ? 'Layak' : 'Tidak Layak') . '</td>';
-                          echo '</tr>';
-                          $no++;
-                        }
+                        // $no = 1;
+                        // foreach ($data_nilai as $row) {
+                        //   $data_mahasiswa = $lib->getAllDataMahasiswa(array_keys($row)[0]);
+                        //   $data_prodi = $lib->getNameProdi($data_mahasiswa->id_prodi);
+                        //   echo '<tr>';
+                        //   echo '<td>' . $no . '</td>';
+                        //   echo '<td>' . $data_mahasiswa->npm . '</td>';
+                        //   echo '<td>' . $data_mahasiswa->nama . '</td>';
+                        //   echo '<td>' . $data_prodi . '</td>';
+                        //   echo '<td>' . array_values($row)[0] . '</td>';
+                        //   echo '<td>' . (($no <= $kouta) ? 'Layak' : 'Tidak Layak') . '</td>';
+                        //   echo '</tr>';
+                        //   $no++;
+                        // }
                         // foreach ($data_nilai_new as $e => $f) {
                         //   foreach ($f[0] as $keys => $values) {
                         //     $data_mahasiswa = $lib->getAllDataMahasiswa($keys);
