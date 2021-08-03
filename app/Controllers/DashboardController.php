@@ -1014,10 +1014,18 @@ class DashboardController extends BaseController
 
 	public function bobot_edit($id)
 	{
+		$bobot = $this->bobot->select('id_persyaratan')->findAll();
+		$id_bobot = [];
+
+		foreach ($bobot as $row) {
+			$id_bobot[] = $row['id_persyaratan'];
+		}
+
 		$data = [
 			'title' => 'SPK Topsis',
 			'data' => $this->bobot->find(dekrip($id)),
 			'persyaratan' => $this->persyaratan->findAll(),
+			'id_bobot' => $id_bobot,
 			'id' => $id
 		];
 		return view('bobot/bobot_edit', $data);
