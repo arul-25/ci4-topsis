@@ -1263,6 +1263,10 @@ class DashboardController extends BaseController
 			return view('seleksi/seleksi_add', $data);
 		} else {
 			$id_kuota = $this->kouta->select('id')->where('id_beasiswa', $id_beasiswa)->where('id_prodi', $id_prodi)->first();
+			if ($id_kuota == null) {
+				session()->setFlashdata('errors', 'Data Kuota Belum Ada, Isi Kuota Terlebih Dahulu');
+				return redirect()->to(base_url('dashboard/seleksi'));
+			}
 			$insert = [
 				'kd_seleksi' => $kd_seleksi,
 				'thn_akademik' => $thn_akademik,
