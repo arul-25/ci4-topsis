@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2021 at 07:57 AM
+-- Generation Time: Aug 03, 2021 at 08:26 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -96,14 +96,6 @@ CREATE TABLE `kouta` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `kouta`
---
-
-INSERT INTO `kouta` (`id`, `thn_akademik`, `id_beasiswa`, `id_prodi`, `kouta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '2021', 1, 1, 30, '2021-07-27 18:21:49', '2021-07-27 18:22:46', NULL),
-(2, '2021', 1, 2, 30, '2021-07-31 13:13:36', '2021-07-31 13:13:36', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -172,6 +164,19 @@ CREATE TABLE `pilihan_persyaratan` (
   `nilai_pilihan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `pilihan_persyaratan`
+--
+
+INSERT INTO `pilihan_persyaratan` (`id`, `id_persyaratan`, `pilihan`, `nilai_pilihan`) VALUES
+(6, 1, 'Buruh', 5),
+(7, 1, 'Petani', 4),
+(8, 1, 'swasta', 3),
+(9, 1, 'Polisi', 2),
+(10, 1, 'TNI', 1),
+(16, 3, 'Petani', 3),
+(17, 3, 'Nelayan', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -207,14 +212,26 @@ CREATE TABLE `seleksi` (
   `thn_akademik` varchar(4) DEFAULT NULL,
   `id_beasiswa` bigint(20) DEFAULT NULL,
   `id_mahasiswa` bigint(20) DEFAULT NULL,
-  `status_terima` enum('Y','N') DEFAULT NULL,
+  `status_terima` enum('Layak','Tidak Layak') DEFAULT NULL,
   `tgl_seleksi` date DEFAULT NULL,
   `id_prodi` int(11) DEFAULT NULL,
+  `id_kouta` int(11) NOT NULL,
   `nilai` double(12,12) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `seleksi`
+--
+
+INSERT INTO `seleksi` (`id`, `kd_seleksi`, `thn_akademik`, `id_beasiswa`, `id_mahasiswa`, `status_terima`, `tgl_seleksi`, `id_prodi`, `id_kouta`, `nilai`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'S0001', '2021', 1, 7, 'Layak', '2021-08-03', 2, 2, 0.400002200000, '2021-08-03 02:27:15', '2021-08-03 02:27:15', NULL),
+(2, 'S0002', '2021', 1, 4, 'Layak', '2021-08-03', 2, 2, 0.400001800000, '2021-08-03 02:38:30', '2021-08-03 02:38:30', NULL),
+(3, 'S0003', '2021', 1, 8, 'Tidak Layak', '2021-08-03', 2, 2, 0.200000180000, '2021-08-03 02:39:58', '2021-08-03 02:39:58', NULL),
+(4, 'S21002', '2021', 1, 5, 'Layak', '2021-08-03', 2, 2, 0.384001200000, '2021-08-03 02:42:35', '2021-08-03 02:42:35', NULL),
+(5, 'S21002', '2021', 1, 6, 'Layak', '2021-08-03', 2, 2, 0.600001400000, '2021-08-03 02:43:41', '2021-08-03 02:43:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -301,7 +318,8 @@ ALTER TABLE `prodi`
 -- Indexes for table `seleksi`
 --
 ALTER TABLE `seleksi`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD KEY `id_kouta` (`id_kouta`);
 
 --
 -- Indexes for table `user`
@@ -335,7 +353,7 @@ ALTER TABLE `detail_seleksi`
 -- AUTO_INCREMENT for table `kouta`
 --
 ALTER TABLE `kouta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -353,7 +371,7 @@ ALTER TABLE `persyaratan`
 -- AUTO_INCREMENT for table `pilihan_persyaratan`
 --
 ALTER TABLE `pilihan_persyaratan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `prodi`
@@ -365,7 +383,7 @@ ALTER TABLE `prodi`
 -- AUTO_INCREMENT for table `seleksi`
 --
 ALTER TABLE `seleksi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
