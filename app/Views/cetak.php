@@ -149,27 +149,25 @@
             <section class="data-laporan">
                 <h5 class="text-center">Laporan Hasil Perhitungan</h5>
                 <table class="table1">
-                    <thead>
+                    <tr>
                         <th>No</th>
                         <th>NPM</th>
                         <th>Nama</th>
                         <th>Prodi</th>
                         <th>Nilai</th>
                         <th>Status</th>
-                    </thead>
-                    <tbody>
-                        <?php $no = 1; ?>
-                        <?php foreach ($data as $row) : ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= $row['npm']; ?></td>
-                                <td><?= $row['nama']; ?></td>
-                                <td><?= $row['nm_prodi']; ?></td>
-                                <td><?= $row['nilai']; ?></td>
-                                <td><?= $row['status_terima']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+                    </tr>
+                    <?php $no = 1; ?>
+                    <?php foreach ($data as $row) : ?>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= $row['npm']; ?></td>
+                            <td><?= $row['nama']; ?></td>
+                            <td><?= $row['nm_prodi']; ?></td>
+                            <td><?= $row['nilai']; ?></td>
+                            <td><?= $row['status_terima']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </table>
             </section>
         </div>
